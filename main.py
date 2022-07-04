@@ -2,7 +2,7 @@ import art
 
 print(art.logo)
 
-st = ""
+st = ""  # Using these as a storing variable to be used by the caeser function
 message = ""
 shift = 0
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
@@ -13,6 +13,10 @@ alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'
 def starter(st, message, shift):
     st1 = input("Type 'e' to start encrypting or Type 'd' to start decrypting: ").lower()
     st += st1
+    if st != 'd' and st != 'e':
+        print(st1)
+        print("Invalid input, running again")
+        starter(st='', message='', shift=0)
     message1 = input("Enter your message: ").lower()
     message += message1
     shift1 = int(input("Enter a shift number: "))
@@ -20,7 +24,7 @@ def starter(st, message, shift):
     caeser(message, shift, st)
 
 
-def helper(result):
+def retry(result):
     if result == "no":
         print("Goodbye!, Thank You For Using The Cipher Program")
     else:
@@ -28,32 +32,32 @@ def helper(result):
 
 
 def caeser(message, shift, st):
+    str = ""
+    if st == 'd':
+        shift *= -1
+    for char in message:
 
-        str = ""
-        if st == 'd':
-            shift *= -1
-        for char in message:
-
-            if char in alphabet:
-                position = alphabet.index(char)  # Gets the current index of the letter in the user's inputted word
-                newPosition = position + shift  # The new index of each letter with the shift applied
-                if newPosition > 25:  # Checking if the updated index is above the available 0-25
-                    newPosition = newPosition % 26  # The out of range index is updated again with the remainder when dividing by 26.
-                    newLetter = alphabet[newPosition]  # Gets the new letter with the updated index from lis1
-                    str += newLetter
-                else:
-                    newLetter = alphabet[newPosition]
-                    str += newLetter
+        if char in alphabet:
+            position = alphabet.index(char)  # Gets the current index of the letter in the user's inputted word
+            newPosition = position + shift  # The new index of each letter with the shift applied
+            if newPosition > 25:  # Checking if the updated index is above the available 0-25
+                newPosition = newPosition % 26  # The out of range index is updated again with the remainder when dividing by 26.
+                newLetter = alphabet[newPosition]  # Gets the new letter with the updated index from lis1
+                str += newLetter
             else:
-                str += char
-        print(str)
-        result = input("Would You Like To Go Again?:  \n")  # This happens after everything has been executed
-        helper(result)
+                newLetter = alphabet[newPosition]
+                str += newLetter
+        else:
+            str += char
+    print(str)
+    result = input("Would You Like To Go Again?: \n")  # This happens after everything has been executed
+    retry(result)
 
 
 # def caeser(message, shift, st):
 #     shouldCont = True
 #     while shouldCont:
+
 #         str = ""
 #         if st == 'e':
 #
@@ -105,7 +109,7 @@ def caeser(message, shift, st):
 #     #             sm = y + shift
 #     #             if sm > 25:
 #     #                 sm = y%26
-#     #                 str += lis1[sm]
+#     #                 str += lis#     1[sm]
 #     #             else:
 #     #                 str += lis1[sm]
 #     # print(str)
